@@ -19,7 +19,13 @@ export default function Navigation() {
       {/* Top bar */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-slate-900/80 backdrop-blur border-b border-slate-800">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🇬🇧</span>
+          <svg width="28" height="28" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" className="rounded-sm shrink-0">
+            <rect width="60" height="40" fill="#012169"/>
+            <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" strokeWidth="8"/>
+            <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="4.8"/>
+            <path d="M30,0 V40 M0,20 H60" stroke="#fff" strokeWidth="13.3"/>
+            <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" strokeWidth="8"/>
+          </svg>
           <span className="font-bold text-white text-lg tracking-tight">EnglishUp</span>
           {syncing && <span className="text-[10px] text-slate-500 ml-1">ukládám…</span>}
         </div>
