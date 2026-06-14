@@ -1,4 +1,4 @@
-import { BookOpen, Brain, Mic, Home, Flame, LogOut, LayoutGrid } from 'lucide-react';
+import { BookOpen, Brain, Mic, Home, Flame, LogOut, LayoutGrid, BarChart2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 const NAV_ITEMS = [
@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { id: 'flashcards', label: 'Kartičky', icon: LayoutGrid },
   { id: 'quiz',       label: 'Kvíz',     icon: Brain },
   { id: 'speaking',   label: 'Mluvení',  icon: Mic },
+  { id: 'stats',      label: 'Statistiky', icon: BarChart2 },
 ];
 
 export default function Navigation() {

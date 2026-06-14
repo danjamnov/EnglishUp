@@ -14,7 +14,15 @@ const INITIAL_PROGRESS = {
   speakingAttempts: {},
   // flashcardMastery: { [wordId]: 'unknown' | 'unsure' | 'known' }
   flashcardMastery: {},
+  // activityLog: array of date strings 'YYYY-MM-DD' (deduplicated)
+  activityLog: [],
 };
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function stampActivity(log) {
+  const today = new Date().toISOString().split('T')[0];
+  return log.includes(today) ? log : [...log, today];
+}
 
 // ─── Reducer ──────────────────────────────────────────────────────────────────
 function progressReducer(state, action) {
@@ -40,6 +48,7 @@ function progressReducer(state, action) {
         streak: newStreak,
         lastActiveDate: today,
         currentLesson: Math.min(Math.max(state.currentLesson, lessonDay + 1), TOTAL_LESSONS + 1),
+        activityLog: stampActivity(state.activityLog ?? []),
       };
     }
 
@@ -49,6 +58,7 @@ function progressReducer(state, action) {
         ...state,
         quizScores: { ...state.quizScores, [lessonDay]: { correct, total } },
         xp: state.xp + correct * 10,
+        activityLog: stampActivity(state.activityLog ?? []),
       };
     }
 
@@ -62,6 +72,7 @@ function progressReducer(state, action) {
           [exerciseId]: { attempts: prev.attempts + 1, lastScore: score },
         },
         xp: state.xp + 15,
+        activityLog: stampActivity(state.activityLog ?? []),
       };
     }
 
@@ -71,6 +82,7 @@ function progressReducer(state, action) {
         ...state,
         flashcardMastery: { ...state.flashcardMastery, [wordId]: level },
         xp: level === 'known' ? state.xp + 5 : state.xp,
+        activityLog: stampActivity(state.activityLog ?? []),
       };
     }
 
