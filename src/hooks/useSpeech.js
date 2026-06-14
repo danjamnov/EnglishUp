@@ -13,13 +13,14 @@ export function useSpeech({ onResult, lang = 'en-US' } = {}) {
   );
 
   const recognitionRef = useRef(null);
+  // Keep onResult in a ref so the effect never needs to restart when it changes
+  const onResultRef = useRef(onResult);
+  useEffect(() => { onResultRef.current = onResult; }, [onResult]);
 
   useEffect(() => {
     if (!isSupported) return;
 
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.lang = lang;
     recognition.continuous = true;
@@ -35,7 +36,7 @@ export function useSpeech({ onResult, lang = 'en-US' } = {}) {
       }
       if (finalTranscript) {
         setTranscript((prev) => (prev + ' ' + finalTranscript).trim());
-        onResult?.(finalTranscript);
+        onResultRef.current?.(finalTranscript);
       }
     };
 
@@ -53,7 +54,7 @@ export function useSpeech({ onResult, lang = 'en-US' } = {}) {
     return () => {
       recognition.abort();
     };
-  }, [isSupported, lang, onResult]);
+  }, [isSupported, lang]); // onResult removed from deps — handled via ref above
 
   const startListening = useCallback(() => {
     if (!isSupported || !recognitionRef.current) return;
