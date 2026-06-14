@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react';
-import { Mic, MicOff, ChevronRight, Lock, ArrowLeft, Eye, CheckCircle2, AlertCircle, MinusCircle, Send } from 'lucide-react';
+import { useState, useCallback, useEffect } from 'react';
+import { Mic, MicOff, ChevronRight, Lock, ArrowLeft, Eye, CheckCircle2, AlertCircle, MinusCircle, Send, Loader2, Sparkles, ThumbsUp, AlertTriangle, BookOpen } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { getExercisesForLesson } from '../data/exercises';
 import { useSpeech } from '../hooks/useSpeech';
 import { TOTAL_LESSONS } from '../data/vocabulary';
+import { getExerciseFeedback } from '../lib/gemini';
 
 // ─── Lesson Picker ────────────────────────────────────────────────────────────
 function LessonPicker({ completedLessons, speakingAttempts, onSelect }) {
@@ -194,10 +195,36 @@ function SpeakingInput({ exercise, onSubmit }) {
 // ─── Feedback Screen ──────────────────────────────────────────────────────────
 function FeedbackScreen({ exercise, userAnswer, onRate }) {
   const [showExample, setShowExample] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+  const [loadingFeedback, setLoadingFeedback] = useState(true);
+  const [feedbackError, setFeedbackError] = useState(null);
+
+  // Fetch AI feedback on mount
+  useEffect(() => {
+    const targetWords = exercise.targetWords
+      ? exercise.targetWords.map((id) => id) // IDs only; Gemini gets context from example
+      : [];
+
+    getExerciseFeedback({
+      userAnswer,
+      promptCzech: exercise.promptCzech,
+      exampleAnswer: exercise.exampleAnswer,
+      targetWords,
+    })
+      .then(setFeedback)
+      .catch((e) => setFeedbackError(e.message))
+      .finally(() => setLoadingFeedback(false));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const scoreColor =
+    !feedback ? 'text-slate-400' :
+    feedback.overallScore >= 8 ? 'text-emerald-400' :
+    feedback.overallScore >= 5 ? 'text-amber-400' :
+    'text-rose-400';
 
   return (
     <div className="space-y-5">
-      <h2 className="text-lg font-bold text-white">Jak ti to šlo?</h2>
+      <h2 className="text-lg font-bold text-white">Zpětná vazba</h2>
 
       {/* User's answer */}
       <div className="bg-slate-800/60 rounded-2xl p-4 space-y-2">
@@ -205,18 +232,107 @@ function FeedbackScreen({ exercise, userAnswer, onRate }) {
         <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">{userAnswer}</p>
       </div>
 
+      {/* AI Feedback */}
+      {loadingFeedback && (
+        <div className="flex items-center justify-center gap-3 py-8 text-slate-400">
+          <Loader2 size={20} className="animate-spin" />
+          <span className="text-sm">AI hodnotí tvou odpověď…</span>
+        </div>
+      )}
+
+      {feedbackError && (
+        <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-4 text-rose-300 text-sm">
+          Nepodařilo se načíst AI zpětnou vazbu: {feedbackError}
+        </div>
+      )}
+
+      {feedback && (
+        <div className="space-y-4">
+          {/* Score + summary */}
+          <div className="bg-slate-800/60 rounded-2xl p-4 flex items-center gap-4">
+            <div className={`text-4xl font-bold ${scoreColor} shrink-0`}>
+              {feedback.overallScore}<span className="text-slate-600 text-2xl">/10</span>
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5 mb-1">
+                <Sparkles size={14} className="text-indigo-400" />
+                <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">AI hodnocení</span>
+              </div>
+              <p className="text-slate-200 text-sm leading-relaxed">{feedback.summary}</p>
+            </div>
+          </div>
+
+          {/* Positives */}
+          {feedback.positives?.length > 0 && (
+            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 space-y-2">
+              <div className="flex items-center gap-1.5">
+                <ThumbsUp size={14} className="text-emerald-400" />
+                <p className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Co jsi udělal/a dobře</p>
+              </div>
+              <ul className="space-y-1">
+                {feedback.positives.map((p, i) => (
+                  <li key={i} className="text-sm text-slate-200 flex gap-2">
+                    <span className="text-emerald-400 shrink-0">✓</span>{p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Grammar errors */}
+          {feedback.grammarErrors?.length > 0 && (
+            <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-4 space-y-3">
+              <div className="flex items-center gap-1.5">
+                <AlertTriangle size={14} className="text-rose-400" />
+                <p className="text-xs font-semibold text-rose-400 uppercase tracking-wider">Gramatické chyby</p>
+              </div>
+              {feedback.grammarErrors.map((err, i) => (
+                <div key={i} className="space-y-1">
+                  <div className="flex gap-2 flex-wrap">
+                    <span className="text-rose-300 text-sm line-through opacity-70">"{err.original}"</span>
+                    <span className="text-slate-500 text-sm">→</span>
+                    <span className="text-emerald-300 text-sm font-semibold">"{err.corrected}"</span>
+                  </div>
+                  <p className="text-slate-400 text-xs">{err.explanation}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Vocabulary suggestions */}
+          {feedback.vocabularySuggestions?.length > 0 && (
+            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 space-y-3">
+              <div className="flex items-center gap-1.5">
+                <BookOpen size={14} className="text-amber-400" />
+                <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider">Lepší slovní zásoba</p>
+              </div>
+              {feedback.vocabularySuggestions.map((s, i) => (
+                <div key={i} className="space-y-1">
+                  <div className="flex gap-2 flex-wrap items-center">
+                    <span className="text-slate-400 text-sm">"{s.original}"</span>
+                    <span className="text-slate-500 text-sm">→</span>
+                    <span className="text-amber-300 text-sm font-semibold">"{s.better}"</span>
+                  </div>
+                  <p className="text-slate-400 text-xs">{s.explanation}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Example answer toggle */}
       <button
         onClick={() => setShowExample((s) => !s)}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20 transition-colors text-sm font-semibold"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-slate-400 hover:bg-slate-700 transition-colors text-sm font-semibold"
       >
         <Eye size={16} />
         {showExample ? 'Skrýt vzorovou odpověď' : 'Zobrazit vzorovou odpověď'}
       </button>
 
       {showExample && (
-        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 space-y-2">
-          <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wider">Vzorová odpověď</p>
+        <div className="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 space-y-2">
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Vzorová odpověď</p>
           <p className="text-slate-200 text-sm leading-relaxed">{exercise.exampleAnswer}</p>
         </div>
       )}
@@ -225,24 +341,15 @@ function FeedbackScreen({ exercise, userAnswer, onRate }) {
       <div>
         <p className="text-slate-400 text-sm text-center mb-3">Jak bys ohodnotil/a svou odpověď?</p>
         <div className="grid grid-cols-3 gap-3">
-          <button
-            onClick={() => onRate(1)}
-            className="flex flex-col items-center gap-2 py-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 transition-colors"
-          >
+          <button onClick={() => onRate(1)} className="flex flex-col items-center gap-2 py-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 transition-colors">
             <AlertCircle size={22} className="text-rose-400" />
             <span className="text-xs font-semibold text-rose-400">Těžké</span>
           </button>
-          <button
-            onClick={() => onRate(2)}
-            className="flex flex-col items-center gap-2 py-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
-          >
+          <button onClick={() => onRate(2)} className="flex flex-col items-center gap-2 py-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors">
             <MinusCircle size={22} className="text-amber-400" />
             <span className="text-xs font-semibold text-amber-400">Ujde to</span>
           </button>
-          <button
-            onClick={() => onRate(3)}
-            className="flex flex-col items-center gap-2 py-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors"
-          >
+          <button onClick={() => onRate(3)} className="flex flex-col items-center gap-2 py-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors">
             <CheckCircle2 size={22} className="text-emerald-400" />
             <span className="text-xs font-semibold text-emerald-400">Šlo to</span>
           </button>
