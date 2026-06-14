@@ -1,9 +1,10 @@
-import { BookOpen, Brain, Mic, Home, Flame, LogOut } from 'lucide-react';
+import { BookOpen, Brain, Mic, Home, Flame, LogOut, LayoutGrid } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 const NAV_ITEMS = [
   { id: 'home',       label: 'Domů',     icon: Home },
   { id: 'vocabulary', label: 'Slovíčka', icon: BookOpen },
+  { id: 'flashcards', label: 'Kartičky', icon: LayoutGrid },
   { id: 'quiz',       label: 'Kvíz',     icon: Brain },
   { id: 'speaking',   label: 'Mluvení',  icon: Mic },
 ];

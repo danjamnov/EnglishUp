@@ -12,6 +12,8 @@ const INITIAL_PROGRESS = {
   xp: 0,
   quizScores: {},
   speakingAttempts: {},
+  // flashcardMastery: { [wordId]: 'unknown' | 'unsure' | 'known' }
+  flashcardMastery: {},
 };
 
 // ─── Reducer ──────────────────────────────────────────────────────────────────
@@ -60,6 +62,15 @@ function progressReducer(state, action) {
           [exerciseId]: { attempts: prev.attempts + 1, lastScore: score },
         },
         xp: state.xp + 15,
+      };
+    }
+
+    case 'UPDATE_MASTERY': {
+      const { wordId, level } = action.payload; // level: 'unknown' | 'unsure' | 'known'
+      return {
+        ...state,
+        flashcardMastery: { ...state.flashcardMastery, [wordId]: level },
+        xp: level === 'known' ? state.xp + 5 : state.xp,
       };
     }
 

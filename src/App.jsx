@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import VocabularyPage from './pages/VocabularyPage';
 import QuizPage from './pages/QuizPage';
 import SpeakingPage from './pages/SpeakingPage';
+import FlashcardsPage from './pages/FlashcardsPage';
 
 function PageRouter() {
   const { user, authLoading, state, setActivePage } = useApp();
@@ -24,6 +25,7 @@ function PageRouter() {
     vocabulary: <VocabularyPage />,
     quiz: <QuizPage />,
     speaking: <SpeakingPage />,
+    flashcards: <FlashcardsPage />,
   };
 
   // Adapter: components use dispatch({type:'SET_PAGE'}) – intercept here
