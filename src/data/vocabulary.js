@@ -126,6 +126,170 @@ export const vocabulary = [
     difficulty: 'B1',
     tags: ['verb', 'communication'],
   },
+
+  // ─── Lesson 4 ───────────────────────────────────────────────────────────────
+  {
+    id: 'word_010',
+    lessonDay: 4,
+    english: 'scrutinize',
+    czech: 'podrobně zkoumat / prověřit',
+    phonetic: '/ˈskruː.tɪ.naɪz/',
+    mnemonic:
+      'SKRU + TIN + IZE – představ si, jak ŠROUBEM (SKRU) otevíráš PLECHOVKU (TIN) a zkoumáš, co je uvnitř. Scrutinize = zkoumat do posledního detailu.',
+    exampleSentence: 'The journalist scrutinized every document before publishing.',
+    exampleTranslation: 'Novinář podrobně prověřil každý dokument před zveřejněním.',
+    difficulty: 'C1',
+    tags: ['verb', 'analysis'],
+  },
+  {
+    id: 'word_011',
+    lessonDay: 4,
+    english: 'tentative',
+    czech: 'předběžný / nerozhodný',
+    phonetic: '/ˈten.tə.tɪv/',
+    mnemonic:
+      'TENT + ATIVE – stan (TENT) je PŘEDBĚŽNÉ bydlení – nejsi si jistý, jestli zůstaneš. Tentative = zatím jen zkusmo, bez jistoty.',
+    exampleSentence: 'We made a tentative plan to meet on Friday.',
+    exampleTranslation: 'Udělali jsme předběžný plán se setkat v pátek.',
+    difficulty: 'B2',
+    tags: ['adjective', 'planning'],
+  },
+  {
+    id: 'word_012',
+    lessonDay: 4,
+    english: 'immaculate',
+    czech: 'bezchybný / neposkvrněný',
+    phonetic: '/ɪˈmæk.jʊ.lət/',
+    mnemonic:
+      'IM + MACULA – v latině "macula" = skvrna, "im-" = ne. IMMACULATE = bez jediné skvrny. Představ si bílou košili bez skvrny – immakulátní čistota!',
+    exampleSentence: 'His presentation was immaculate – not a single mistake.',
+    exampleTranslation: 'Jeho prezentace byla bezchybná – ani jedna chyba.',
+    difficulty: 'C1',
+    tags: ['adjective', 'quality'],
+  },
+
+  // ─── Lesson 5 ───────────────────────────────────────────────────────────────
+  {
+    id: 'word_013',
+    lessonDay: 5,
+    english: 'inevitable',
+    czech: 'nevyhnutelný',
+    phonetic: '/ɪnˈev.ɪ.tə.bəl/',
+    mnemonic:
+      'IN + EVIT + ABLE – IN (ne) + EVITOVAT (vyhnout se) + ABLE = nedá se tomu vyhnout. Jako smrt a daně – inevitable. Nevyhnutelné!',
+    exampleSentence: 'Change is inevitable – you cannot stop it.',
+    exampleTranslation: 'Změna je nevyhnutelná – nemůžeš ji zastavit.',
+    difficulty: 'B2',
+    tags: ['adjective', 'abstract'],
+  },
+  {
+    id: 'word_014',
+    lessonDay: 5,
+    english: 'candid',
+    czech: 'upřímný / přímočarý',
+    phonetic: '/ˈkæn.dɪd/',
+    mnemonic:
+      'CAND + ID – CANDY (bonbon) je sladký a přímý – nic neskrývá. Candid camera = skrytá kamera zachycující PRAVDIVÉ reakce. Candid = upřímný, bez přetvářky.',
+    exampleSentence: 'I appreciate your candid feedback on my work.',
+    exampleTranslation: 'Oceňuji tvou upřímnou zpětnou vazbu na mou práci.',
+    difficulty: 'C1',
+    tags: ['adjective', 'character'],
+  },
+  {
+    id: 'word_015',
+    lessonDay: 5,
+    english: 'diligent',
+    czech: 'pilný / svědomitý',
+    phonetic: '/ˈdɪl.ɪ.dʒənt/',
+    mnemonic:
+      'DILI + GENT – DILIgentní GENTLEMAN se od ostatních odlišuje svou PILNOSTÍ. Dělá vše pečlivě a svědomitě. Diligent = pilný.',
+    exampleSentence: 'She is a diligent student who never misses a deadline.',
+    exampleTranslation: 'Je to pilná studentka, která nikdy nezmešká termín.',
+    difficulty: 'B1',
+    tags: ['adjective', 'character'],
+  },
+
+  // ─── Lesson 6 ───────────────────────────────────────────────────────────────
+  {
+    id: 'word_016',
+    lessonDay: 6,
+    english: 'empathy',
+    czech: 'empatie / vcítění se',
+    phonetic: '/ˈem.pə.θi/',
+    mnemonic:
+      'EM + PATHY – EM (jako Emma) cítí (PATHY = z řeckého pathos = cit) s ostatními. Empathy = schopnost vcítit se do druhého. Pozor: sympathy = soucit, empathy = vcítění!',
+    exampleSentence: 'Good leaders show empathy towards their team.',
+    exampleTranslation: 'Dobří lídři projevují empatii ke svému týmu.',
+    difficulty: 'B1',
+    tags: ['noun', 'emotions'],
+  },
+  {
+    id: 'word_017',
+    lessonDay: 6,
+    english: 'compelling',
+    czech: 'přesvědčivý / poutavý',
+    phonetic: '/kəmˈpel.ɪŋ/',
+    mnemonic:
+      'COM + PELL – kompelovat = nutit, přitahovat. Jako magnet, který tě NUTÍ se dívat a naslouchat. Compelling argument = argument, kterému prostě nemůžeš odolat.',
+    exampleSentence: 'The documentary made a compelling case for climate action.',
+    exampleTranslation: 'Dokumentární film přinesl přesvědčivé argumenty pro klimatická opatření.',
+    difficulty: 'C1',
+    tags: ['adjective', 'communication'],
+  },
+  {
+    id: 'word_018',
+    lessonDay: 6,
+    english: 'ambivalent',
+    czech: 'rozpolcený / nerozhodnutý',
+    phonetic: '/æmˈbɪv.ə.lənt/',
+    mnemonic:
+      'AMBI + VALENT – AMBI = obojí (jako ambulance jede oběma směry), VALENT = hodnota. Mít hodnotu pro OBĚ strany = být rozpolcený, cítit dvě věci najednou.',
+    exampleSentence: 'I feel ambivalent about moving to a new city.',
+    exampleTranslation: 'Mám rozpolcené pocity ohledně přestěhování do nového města.',
+    difficulty: 'C1',
+    tags: ['adjective', 'emotions'],
+  },
+
+  // ─── Lesson 7 ───────────────────────────────────────────────────────────────
+  {
+    id: 'word_019',
+    lessonDay: 7,
+    english: 'meticulous',
+    czech: 'pečlivý / důkladný',
+    phonetic: '/məˈtɪk.jʊ.ləs/',
+    mnemonic:
+      'METI + CULOUS – META + KOLO – jako cyklista na etapovém závodě, který METICULOUSLY kontroluje každou část kola před startem. Meticulous = pečlivý do posledního detailu.',
+    exampleSentence: 'The surgeon was meticulous in every step of the operation.',
+    exampleTranslation: 'Chirurg byl pečlivý v každém kroku operace.',
+    difficulty: 'C1',
+    tags: ['adjective', 'character'],
+  },
+  {
+    id: 'word_020',
+    lessonDay: 7,
+    english: 'flourish',
+    czech: 'vzkvétat / prospívat',
+    phonetic: '/ˈflʌr.ɪʃ/',
+    mnemonic:
+      'FLOUR + ISH – MOUKA (FLOUR) + ISH = jako těsto z mouky, které KYNE, ROSTE a VZKVÉTÁ v teple trouby. Flourish = prosperovat, rozvíjet se.',
+    exampleSentence: 'The business began to flourish after the new marketing campaign.',
+    exampleTranslation: 'Podnikání začalo vzkvétat po nové marketingové kampani.',
+    difficulty: 'B2',
+    tags: ['verb', 'growth'],
+  },
+  {
+    id: 'word_021',
+    lessonDay: 7,
+    english: 'skeptical',
+    czech: 'skeptický / nedůvěřivý',
+    phonetic: '/ˈskep.tɪ.kəl/',
+    mnemonic:
+      'SKEP + TICAL – SKEPTIK je jako TIK-TAK hodinky: "je to pravda? — tik. Nebo ne? — tak." Pořád pochybuje a zpochybňuje. Skeptical = nedůvěřivý, pochybovačný.',
+    exampleSentence: 'She was skeptical about the new diet promising quick results.',
+    exampleTranslation: 'Byla skeptická ohledně nové diety slibující rychlé výsledky.',
+    difficulty: 'B2',
+    tags: ['adjective', 'thinking'],
+  },
 ];
 
 /**
