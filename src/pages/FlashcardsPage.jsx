@@ -49,9 +49,6 @@ function FlipCard({ word, mastery }) {
         >
           <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">Česky</span>
           <p className="text-3xl font-bold text-white text-center leading-tight">{word.czech}</p>
-          {word.phonetic && (
-            <p className="text-slate-500 text-sm font-mono">{word.phonetic}</p>
-          )}
           <div className={`mt-2 px-3 py-1 rounded-full border text-xs font-semibold ${levelBadge.color}`}>
             {levelBadge.label}
           </div>
@@ -71,6 +68,9 @@ function FlipCard({ word, mastery }) {
         >
           <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400">English</span>
           <p className="text-3xl font-bold text-white text-center leading-tight">{word.english}</p>
+          {word.phonetic && (
+            <p className="text-slate-400 text-sm font-mono">{word.phonetic}</p>
+          )}
           {word.difficulty && (
             <span className="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-semibold">
               {word.difficulty}
